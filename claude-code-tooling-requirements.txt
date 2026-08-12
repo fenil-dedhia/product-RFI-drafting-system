@@ -1,0 +1,6 @@
+# Python libraries the agent uses to read and write the source and target files.
+# Install with:  pip install -r claude-code-tooling-requirements.txt
+
+openpyxl>=3.1        # read/write the .xlsx questionnaire (schema, limits, dropdowns, answers)
+python-pptx>=0.6.23  # read strategy decks (.pptx), including speaker notes
+python-docx>=1.1     # read prior reports and RFIs saved as .docx

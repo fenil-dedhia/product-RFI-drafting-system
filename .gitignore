@@ -1,0 +1,49 @@
+# ── Privacy by construction ─────────────────────────────────────────────
+# This repo ships the FRAMEWORK, not data. Everything a team member adds to
+# the content folders stays local. Only each folder's README.md is tracked,
+# so the structure survives a fork while confidential RFI material cannot be
+# pushed to a public fork by accident.
+#
+# Pattern note: to keep a README inside an otherwise-ignored folder, we ignore
+# the folder's contents, then re-include the nested folder and its README.
+
+# Team-confidential OEM disclosure notes — the OEM-disclosure-notes.md file (a
+# capability delivered by another vendor and the approved disclosure wording).
+# NEVER tracked; seeded from the restricted team drive. The glob is name-agnostic,
+# so any variant (including a vendor-prefixed name) is ignored too, and no vendor
+# name ever needs to appear in this tracked file.
+knowledge-base/*disclosure-notes.md
+
+# knowledge-base/references/ (and its roadmap/ subfolder)
+knowledge-base/references/*
+!knowledge-base/references/README.md
+!knowledge-base/references/roadmap/
+knowledge-base/references/roadmap/*
+!knowledge-base/references/roadmap/README.md
+
+# knowledge-base/previous-RFIs/ (and its latest-RFI/ subfolder)
+knowledge-base/previous-RFIs/*
+!knowledge-base/previous-RFIs/README.md
+!knowledge-base/previous-RFIs/latest-RFI/
+knowledge-base/previous-RFIs/latest-RFI/*
+!knowledge-base/previous-RFIs/latest-RFI/README.md
+
+# outputs/ (and its blank-current-RFI/ subfolder)
+outputs/*
+!outputs/README.md
+!outputs/blank-current-RFI/
+outputs/blank-current-RFI/*
+!outputs/blank-current-RFI/README.md
+
+# ── OS / editor / tooling cruft ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+
+# Local Claude Code settings (keep CLAUDE.md, ignore machine-local state)
+.claude/settings.local.json
