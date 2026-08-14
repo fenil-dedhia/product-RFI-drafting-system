@@ -89,25 +89,36 @@ Each versioned set comprises:
 
 1. A **Markdown answer sheet** with every answer labelled by its exact cell reference (e.g. `[K24]`) and its measured character count.
 2. A **filled copy of the workbook** (never the blank; never a formula cell overwritten).
-3. A **reviewer's note**: a numbers-register table (each figure, where used, provenance or `VERIFY` status, counting definition), the `UNKNOWN` / `VERIFY` list, a diff of every inherited value kept-with-source / replaced / flagged, and the answers most likely to draw analyst scrutiny.
+3. A **reviewer's note**: a numbers-register table (each figure, where used, provenance or `VERIFY` status, counting definition), the `UNKNOWN` / `VERIFY` list, a diff of every inherited value kept-with-source / replaced / flagged, the **conflict log** from Phase 6 (every contradiction found, how it was settled — by source or by reviewer ruling — and what remains open), and the answers most likely to draw analyst scrutiny.
+
+### 6. One story, or a flagged difference — never a silent overwrite
+
+The answer set is read as a whole: by an analyst scoring it line-item by line-item, and against what we told the same analyst last cycle. Two answers that disagree — or one answer that quietly rewrites last cycle's — cost more than a gap does. They read as carelessness, or as a story that changed with no one willing to say why.
+
+- **A pre-filled answer is an incumbent, not a blank.** Anything already answered in the questionnaire, and anything a prior FINAL answered for the same rubric line-item, stands until a human retires it. Draft the better answer if you have one — but never over the existing one on your own authority. Put the two side by side and take them to the reviewer.
+- **Fresher data is a reason to flag, not a licence to replace.** A newer source usually wins on facts (Principle 3). But "our answer changed" has consequences outside this document, and the human owns that call.
+- **Settle what the sources settle; escalate the rest live.** A conflict a primary source decides — you can quote it and the quote ends the argument — you resolve yourself and log. What the materials genuinely cannot decide goes to the reviewer **during the session**, not into the reviewer's note for someone to trip over next week.
+- **Every kept conflict carries its decision.** When the reviewer chooses to keep competing readings, tag them (`VERIFY` / `UNKNOWN`, Principle 1) with what conflicted, which sources disagreed, and that the reviewer ruled on it — so the async sweep can see it was settled rather than missed, and doesn't re-open it.
 
 ---
 
 ## Workflow (phases)
 
 0. **Pre-flight check** — verify the workspace is prepared; stop if content is missing or misplaced (detailed below).
-1. **Extract the cell schema** — open the workbook in code and map every answer cell: its label, value type (free text / numeric / dropdown / date), dropdown options read from the data-validation list, any pre-filled value, and its character limit via the tiered detection in Principle 2. This map governs the whole draft.
+1. **Extract the cell schema** — open the workbook in code and map every answer cell: its label, value type (free text / numeric / dropdown / date), dropdown options read from the data-validation list, any pre-filled value, and its character limit via the tiered detection in Principle 2. Snapshot every pre-filled answer **verbatim** as the *incumbent baseline* — Phase 6 diffs against it, so it must be captured before drafting touches anything. This map governs the whole draft.
 2. **Build the facts register** — for every quantitative or volatile claim, record its value, provenance (or `VERIFY`), and counting definition (Principle 1). Compute counts from the source where you can. Reconcile conflicts, then **freeze the register** before drafting.
 3. **Interview the user** — surface the *Always confirm* items below and any other genuine judgment call, then **wait for answers**. Never draft on assumptions.
-4. **Draft** — answer per rubric capability, in narrative prose, within each cell's limit, using only valid dropdown values and only register-backed numbers (Principles 2–4). Disclose third-party-delivered capabilities in every relevant answer (Principle 4). Write versioned deliverables into `outputs/` (Principle 5).
+4. **Draft** — answer per rubric capability, in narrative prose, within each cell's limit, using only valid dropdown values and only register-backed numbers (Principles 2–4). Disclose third-party-delivered capabilities in every relevant answer (Principle 4). Where a cell already carries an answer, draft yours **alongside** it, never over it (Principle 6). Write versioned deliverables into `outputs/` (Principle 5).
 5. **Verify by measurement** — re-measure every answer's length in code against its limit; run an adversarial number check in fresh context (a checker that did not draft) against the register; validate every dropdown, numeric, and date value. Fix or `VERIFY`-tag until clean.
-6. **Deliver** — the versioned answer sheet, filled workbook, and reviewer's note; brand `_FINAL` only on the owner's explicit sign-off (Principle 5).
+6. **Reconcile conflicts — live with the reviewer** — fan out fresh-context workers to attack the drafted answer set for contradictions, settle what the sources settle, and rule on the rest with the reviewer **in session** before anything is handed over (detailed below).
+7. **Deliver** — the versioned answer sheet, filled workbook, and reviewer's note; brand `_FINAL` only on the owner's explicit sign-off (Principle 5).
 
 ### Phase 0 — Pre-flight check (run before anything else)
 
 Corpus prep is done by hand (see `SETUP-INSTRUCTIONS.md`), so it is where human error enters. Before extracting anything, verify the workspace **in code** and **stop with a clear, itemized list if something is missing or misplaced** — never draft on incomplete inputs. Check:
 
 - **Target present and unique** — `outputs/blank-current-RFI/` holds exactly one questionnaire file. Zero, or more than one → stop and ask which is the target.
+- **Incumbent answers counted** — report how many answer cells arrive **already filled**. A partially completed questionnaire is normal and is not an error; say so up front, because those answers are incumbents to be reconciled (Principle 6), not blanks to be overwritten.
 - **Disclosure notes present** — `knowledge-base/OEM-disclosure-notes.md` exists. If it is missing, third-party-capability disclosures cannot be applied → stop and tell the user to seed it from the drive (per `SETUP-INSTRUCTIONS.md`), or to confirm no third-party-delivered capability applies this cycle.
 - **Sources present** — `knowledge-base/references/` has this cycle's material (a strategy deck and/or `references/roadmap/` content) and `knowledge-base/doc-sources.md` exists. Empty references → warn.
 - **Corpus present and singular** — `knowledge-base/previous-RFIs/latest-RFI/` contains exactly one file. Empty, or more than one → warn.
@@ -128,6 +139,32 @@ Escalate only the genuine judgment calls — the ones no document can settle. Th
 
 Frame each question so a busy human can answer it quickly: state your best-guess default and ask them to confirm or correct, rather than posing an open essay question.
 
+### Phase 6 — Reconcile conflicts live (run before handing anything back)
+
+Phase 5 proves each answer is the right *length* and carries the right *numbers*. It cannot tell you the answer set contradicts itself, or contradicts what we submitted last cycle. This pass does — **in session, with the reviewer**, so no human meets a contradiction the system could have caught. It is the opposite of the reviewer's note, which is the asynchronous sweep afterwards.
+
+**Four lenses.** Give each fan-out worker **one** lens, and scope it to a *capability thread* that spans the workbook rather than to a section — contradictions cluster by topic, and a worker scoped to one section is structurally blind to the cross-section contradiction it was sent to find:
+
+1. **Against an incumbent** — the questionnaire arrived with this cell answered, and the draft says something else.
+2. **Against the corpus** — the prior FINAL answered the same rubric line-item differently. Match on question text and line-item, **never on cell address** — addresses move between cycles, and a positional match silently compares two unrelated questions.
+3. **Against each other** — two drafted answers cannot both be true: a capability GA in one cell and roadmap in another, a different scope of "the platform," the same capability claimed at different strengths, a third-party disclosure made in one relevant answer and dropped from the next.
+4. **Against the sources** — the answer asserts something the docs, roadmap, or deck do not support, or actively contradict.
+
+Numbers are **not** this pass's job — Phase 5 owns numeric identity against the register. This pass owns the **story**: what is claimed, how strongly, and whether it holds together.
+
+**Triage before you speak.** Settle every conflict a primary source decides, apply it, and log it — you do not spend the reviewer's attention on a question a quotable doc already answers. Then de-duplicate what remains and **cluster by decision, not by cell**: six answers hanging on whether one capability is GA is *one* question, and asking it six times is how a reviewer stops reading. Rank hardest-consequence first.
+
+**The interview.** For each decision: the two readings, where each came from, which you'd pick and why, and the four outcomes — **keep the incumbent**, **supersede it**, **keep both flagged**, or **merge**. As in Phase 3, a busy human should be able to answer in a word.
+
+**Applying the rulings.**
+
+- **Supersede** — record it in the reviewer's note with the reason. Contradicting a prior FINAL is a question the analyst may ask out loud; the team needs to know the answer changed and why *before* they're asked.
+- **Keep both / keep as-is** — tag inline per Principle 1, with the competing readings, their sources, and the ruling inside the tag: e.g. `[VERIFY: prior FINAL (2026-07-17) answered "supported via connector"; current docs describe it as preview-only; reviewer chose to keep both readings — confirm the shipping state with the product team]`.
+- **Merge** — a merged answer is a **new** answer: re-run Phase 5 on it. Merges are the most common way a reconciled answer quietly blows its character cap.
+- Every applied change lands as the **next version** (Principle 5) — never edit a delivered version in place.
+
+**If the reviewer runs out of time,** stop asking. Carry every unresolved conflict into the reviewer's note as an explicit open list with your recommendation for each. This pass degrades into the async review; it never blocks delivery.
+
 ---
 
 ## Orchestration
@@ -136,6 +173,7 @@ Frame each question so a busy human can answer it quickly: state your best-guess
 - **Parallelize with a barrier before drafting:** run schema extraction, corpus-recency ranking, and the facts register concurrently; **reconcile number conflicts** (this is where a wrong inherited number dies before it can spread); freeze the register read-only.
 - **Draft subsections in parallel** against the frozen register.
 - **The verifier is not the author.** Run three audits in parallel: length (re-measure in code), an **adversarial number check by a worker that did not draft** (ideally a different model — told to assume a fabricated or stale number is hiding and go find it), and dropdown/type. Loop fixes to the owning subsection until clean or explicitly `VERIFY`-tagged. Keep one voice in the final output.
+- **Fan out the conflict pass by lens, not by section.** Its workers are neither the drafters nor the Phase 5 verifiers — fresh context, reading the answer set as it would be delivered. One lens each (incumbent / corpus / internal / source), each sweeping a capability thread across the whole workbook, each told to assume a contradiction is in there and go find it. Merge and de-duplicate their findings into **one ranked decision list** before the reviewer sees anything; parallel workers reporting independently is how one decision reaches a human as six questions.
 
 ## Read the way the tools actually work
 
@@ -147,5 +185,7 @@ Questionnaires and decks are large. The Read tool silently truncates a big file 
 
 - **Facts register** — the single list where each reusable number/fact is defined once, with its value, provenance (or computation), counting definition, and status.
 - **VERIFY / UNKNOWN** — draft-stage flags (see Principle 1); both require human resolution before submission.
+- **Incumbent answer** — an answer already present in the questionnaire, or the prior FINAL's answer to the same rubric line-item. Stands until a human retires it (Principle 6).
+- **Conflict pass** — Phase 6: the live, in-session reconciliation of contradictions, run before the package is handed over. Distinct from the reviewer's note, which is the async sweep afterwards.
 - **Slot** — one answer cell of a multi-part question.
 - **Rubric subsection** — the analyst's capability grouping (the questionnaire's section/subsection column) that each question is scored under.

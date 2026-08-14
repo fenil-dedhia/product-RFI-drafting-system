@@ -2,12 +2,13 @@
 
 **A self-serve, constitution-governed workflow for producing accurate, analyst-ready RFI responses with an AI coding agent.**
 
-Analyst evaluations — the Gartner Magic Quadrant, Forrester Wave, IDC MarketScape, BARC Score — are high-stakes, recurring, and unforgiving. A single questionnaire can run to hundreds of questions; every answer is scored against a capability rubric, every cell is size-capped, and the finished evaluation is published. Drafting them by hand is slow; drafting them fast invites two specific, recurring failure modes:
+Analyst evaluations — the Gartner Magic Quadrant, Forrester Wave, IDC MarketScape, BARC Score — are high-stakes, recurring, and unforgiving. A single questionnaire can run to hundreds of questions; every answer is scored against a capability rubric, every cell is size-capped, and the finished evaluation is published. Drafting them by hand is slow; drafting them fast invites three specific, recurring failure modes:
 
 1. **Numbers that aren't real** — a figure inherited from an old template, or invented, then quietly repeated across many answers.
 2. **Limits that get blown** — answers that overflow the questionnaire's per-cell character caps and have to be re-cut late.
+3. **Stories that don't match** — one answer contradicting another, or quietly rewriting what last year's submission told the very same analyst.
 
-This repository is a **reusable system** that makes both failures structurally hard, and turns a scramble into a repeatable, reviewable pipeline the whole Product Management team can run.
+This repository is a **reusable system** that makes all three failures structurally hard, and turns a scramble into a repeatable, reviewable pipeline the whole Product Management team can run.
 
 > **New here? Start with the setup & folder-hygiene checklist → [`SETUP-INSTRUCTIONS.md`](./SETUP-INSTRUCTIONS.md).**
 
@@ -34,7 +35,8 @@ Then the pipeline runs:
 3. **Interview the human.** The agent stops and asks about the judgment calls only a person can make — module scoping, third-party/partner capability disclosure, GA-vs-roadmap, deployment reality — before drafting anything.
 4. **Draft per capability.** Each answer is written to its rubric line-item, to the character limit, as narrative prose — with a defensible, well-reasoned "No" preferred over an overreaching "Yes."
 5. **Verify by measurement.** Every answer length is re-measured in code against its limit; every number is re-checked against the register by a fresh adversarial pass; every dropdown value is validated.
-6. **Hand back a reviewable package.** A Markdown answer sheet (labelled by cell reference), a filled copy of the workbook, and a reviewer's note listing every number's provenance and every open `VERIFY` / `UNKNOWN` item.
+6. **Reconcile conflicts — live.** Fresh agents then attack the drafted answers hunting contradictions: against answers already in the questionnaire, against what the last finalized RFI told this analyst, against each other, against the sources. Whatever a quotable source settles, the agent settles. The rest goes to the reviewer *in session* — clustered by decision rather than by cell — and nothing is overwritten on the agent's own authority.
+7. **Hand back a reviewable package.** A Markdown answer sheet (labelled by cell reference), a filled copy of the workbook, and a reviewer's note listing every number's provenance, the conflict log, and every open `VERIFY` / `UNKNOWN` item — the asynchronous sweep, which the reviewer can distribute across the team.
 
 ---
 
@@ -45,7 +47,9 @@ Then the pipeline runs:
 - **No invented corroboration.** The agent may cite a source only with an exact quote and location.
 - **Measure, never estimate.** Character limits are enforced by counting in code, not by eyeballing.
 - **Recency-ranked corpus.** The most recently finalized RFI is the strongest source of current facts; drafts are style precedent only, never a source of numbers.
-- **Human-in-the-loop where it matters.** Two deliberate checkpoints — the scoping interview before drafting, and the reviewer's note before submission.
+- **Nothing is silently overwritten.** An answer already in the questionnaire — or one a prior FINAL gave — is an *incumbent*. A newer, better-sourced answer is a reason to **ask**, not a licence to replace; the system surfaces the difference rather than resolving it quietly.
+- **Contradictions are found before a human finds them.** A dedicated pass sweeps the finished answer set for competing versions of the truth and rules on them with the reviewer, live, before the package is ever handed over.
+- **Human-in-the-loop where it matters.** Three deliberate checkpoints — the scoping interview before drafting, the live conflict ruling before handoff, and the reviewer's note before submission.
 
 ---
 
@@ -71,7 +75,8 @@ A few deliberate choices, for anyone evaluating how this is built:
 
 - **Constitution as code.** The durable rules live in `CLAUDE.md`, which Claude Code loads automatically every session. The per-run prompt stays thin and carries only what changes cycle to cycle — so quality is a property of the system, not of whoever happened to write that day's prompt.
 - **The RFI is treated as a scored artifact, not a document.** Every question is mapped to its rubric capability, and answers are optimized per line-item rather than as prose.
-- **Failure modes drove the safeguards.** The provenance/`VERIFY` protocol and the measure-don't-estimate rule exist because those are the two ways fast RFI drafting actually goes wrong; each has a dedicated, automated defense so it can't depend on a human catching it.
+- **Failure modes drove the safeguards.** The provenance/`VERIFY` protocol, the measure-don't-estimate rule, and the live conflict pass exist because those are the three ways fast RFI drafting actually goes wrong; each has a dedicated, automated defense so it can't depend on a human catching it.
+- **Live review and async review are different jobs.** The conflict pass exists to interrogate the answers *while the reviewer is still in the room* — competing versions of the truth are the expensive thing to discover late, so they get a synchronous ruling. The reviewer's note is deliberately the other kind: a durable, distributable checklist for the slower sweep.
 - **Privacy by construction.** This repo contains **no company data and no completed RFIs** — only the framework. The `.gitignore` whitelists just the folder guides, so confidential material a team member adds locally can't be pushed to a public fork by accident.
 
 ---

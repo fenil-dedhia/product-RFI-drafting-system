@@ -35,7 +35,7 @@ _Before every new RFI — do these by hand._
 
 1. **Promote last cycle's result into the corpus.** Take the questionnaire your team reviewed and finalized, and rename it so the filename contains **`FINAL`** and its **date** (e.g. `Some-Evaluation-Questionnaire-2026-07-17-FINAL.xlsx`). Then rotate the corpus: move whatever is currently in `knowledge-base/previous-RFIs/latest-RFI/` down into `knowledge-base/previous-RFIs/`, and place the newly finalized file into `latest-RFI/` so it is the **single top-ranked source of current facts**. Delete or clearly mark any superseded DRAFT so stale numbers can't be picked up.
 
-2. **Stage the new questionnaire.** Put the new blank RFI to fill as the **only file in `outputs/blank-current-RFI/`**, so the agent unambiguously knows this cycle's target.
+2. **Stage the new questionnaire.** Put the new blank RFI to fill as the **only file in `outputs/blank-current-RFI/`**, so the agent unambiguously knows this cycle's target. If it arrives with some answers **already filled in, leave them exactly as they are** — don't clear them to "give the agent a clean sheet." It treats a pre-filled answer as an incumbent, never overwrites one, and raises any it disagrees with for you to rule on.
 
 3. **Refresh `knowledge-base/references/`, in priority order** (top items age fastest):
    1. **`references/roadmap/`** — refresh **first**. Roadmap material changes most between cycles, and a stale roadmap is how a "does it ship yet" answer goes wrong. Drop in the latest roadmap deck/images and remove the previous cycle's.
@@ -47,6 +47,8 @@ _Before every new RFI — do these by hand._
 5. **Clear old deliverables from `outputs/`.** Remove last run's generated answers and filled workbook (the files directly in `outputs/`, not the `blank-current-RFI/` target) so they aren't confused with this cycle's work.
 
 6. **Gather the team-only facts** for the interview step: current **version and GA date per module**, **active customer counts**, any **third-party / partner-supplied capability disclosure** wording, the exact **module list that defines "the platform,"** and any **percentage splits** the questionnaire asks for. No document can answer these — the agent will ask, and having them ready keeps the run moving.
+
+7. **Plan to be around for _two_ live checkpoints, not one.** The first is the scoping interview above, before drafting. The second comes after drafting: the agent runs a conflict pass over its own answers and asks you to rule on every contradiction the sources can't settle — between its answers and ones already in the questionnaire, between its answers and what last cycle's FINAL told the same analyst, or between two of its own answers. Those rulings are quick (usually "keep the old one," "use the new one," or "keep both, flagged"), but they need you. Whatever you don't get to lands in the reviewer's note as an open list instead — the run never blocks on it.
 
 ---
 
