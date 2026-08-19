@@ -10,11 +10,25 @@ Analyst evaluations — the Gartner Magic Quadrant, Forrester Wave, IDC MarketSc
 
 This repository is a **reusable system** that makes all three failures structurally hard, and turns a scramble into a repeatable, reviewable pipeline the whole Product Management team can run.
 
+It also answers **general product questions** — a customer thread after a demo, a sales escalation, a security review — using the same knowledge base and the same truth rules, in a format built to be forwarded. See [Two modes](#two-modes) below.
+
 > **New here? Start with the setup & folder-hygiene checklist → [`SETUP-INSTRUCTIONS.md`](./SETUP-INSTRUCTIONS.md).**
 
 > **Have feedback for this system?** Contact the author, [Fenil Dedhia](https://www.linkedin.com/in/fenildedhia/) — suggestions and improvements are welcome.
 
 ---
+
+## Two modes
+
+Same knowledge base, same rules about what is true. Two different deliverables.
+
+| | **Mode A — RFI questionnaire** | **Mode B — general product Q&A** |
+| --- | --- | --- |
+| You have | A blank analyst questionnaire | Questions from a customer, a colleague, or a review |
+| You get | A filled workbook, an answer sheet, a reviewer's note | One response document, structured to forward |
+| Enforces | Cell limits, dropdowns, rubric line-items | Prose, deep-linked to published docs |
+
+Both are governed by [`CLAUDE.md`](./CLAUDE.md). Mode B adds [`GENERAL-Q&A-PLAYBOOK.md`](./GENERAL-Q&A-PLAYBOOK.md) for structure, voice and formatting — separating what the customer asked from what we already told them, marking every answer clearly, routing open questions to the owning PM, and correcting anything we previously got wrong. The rest of this README describes Mode A, which is the stricter pipeline.
 
 ## How it works — the folder is the interface
 
@@ -53,17 +67,36 @@ Then the pipeline runs:
 
 ---
 
+## What it can't do — the corpus is the ceiling
+
+**This system treats what you give it as the truth.** It reads your knowledge base and your registered product docs, refuses to invent anything beyond them, and flags what it cannot source. That discipline is the point — but it has a direct consequence worth stating plainly:
+
+> **The answers can only be as good, as complete, and as current as the corpus you populate.**
+
+Three specific ways that bites:
+
+- **The product is often broader than the docs.** Capabilities ship before they're documented, and some are never written up at all. The system will describe an undocumented capability as absent, because from where it sits, it is. A confident "not supported" may simply mean "not in the corpus."
+- **Nuance lives in people, not pages.** Docs record what a feature does, rarely the conditions, caveats and edge cases a PM carries in their head. An answer can be literally correct and still miss the qualification that matters to the customer asking.
+- **Stale inputs produce stale answers, with full confidence.** A roadmap deck from two quarters ago will be cited as current. Nothing in the pipeline can detect that a source is out of date — only that it exists.
+
+**So the review checkpoints are not ceremony.** The scoping interview, the live conflict ruling, and the reviewer's note exist precisely because the corpus has edges the system can't see past. The `VERIFY` and `UNKNOWN` flags are the system telling you where it knows it's blind; where it doesn't know, only a human reading the answers will catch it.
+
+**The practical implication:** the return on this system tracks almost entirely with the investment in `knowledge-base/`. Refreshing the roadmap folder every cycle, keeping `doc-sources.md` pointed at every module's live docs, promoting each finalized RFI into `latest-RFI/`, and keeping the disclosure notes and PM roster current — that work *is* the quality of the output. A well-fed corpus makes this system a force multiplier. A thin one makes it a confident, well-formatted way to be wrong.
+
+---
+
 ## Getting started
 
 1. Fork and clone this repo.
 2. Read **[`SETUP-INSTRUCTIONS.md`](./SETUP-INSTRUCTIONS.md)** and run the one-time setup.
-3. Each cycle: run the folder-hygiene checklist in `SETUP-INSTRUCTIONS.md`, then paste **[`START-SESSION-PROMPT.md`](./START-SESSION-PROMPT.md)** into Claude Code.
+3. Each cycle: run the folder-hygiene checklist in `SETUP-INSTRUCTIONS.md`, then paste the **Mode A** prompt from **[`START-SESSION-PROMPT.md`](./START-SESSION-PROMPT.md)** into Claude Code.
+4. For a one-off product question rather than a cycle, paste the **Mode B** prompt from the same file and point it at the thread or document.
 
 ---
 
 ## Repository layout
 
-Six framework files at the root — this README, [`CLAUDE.md`](./CLAUDE.md), [`START-SESSION-PROMPT.md`](./START-SESSION-PROMPT.md), [`SETUP-INSTRUCTIONS.md`](./SETUP-INSTRUCTIONS.md), [`REPO-STRUCTURE.md`](./REPO-STRUCTURE.md), and the requirements file — plus two content areas you populate locally: `knowledge-base/` (what the agent reads) and `outputs/` (what it produces). The content folders ship empty; `.gitignore` keeps whatever you add local.
+Seven framework files at the root — this README, [`CLAUDE.md`](./CLAUDE.md), [`START-SESSION-PROMPT.md`](./START-SESSION-PROMPT.md), [`GENERAL-Q&A-PLAYBOOK.md`](./GENERAL-Q&A-PLAYBOOK.md), [`SETUP-INSTRUCTIONS.md`](./SETUP-INSTRUCTIONS.md), [`REPO-STRUCTURE.md`](./REPO-STRUCTURE.md), and the requirements file — plus two content areas you populate locally: `knowledge-base/` (what the agent reads) and `outputs/` (what it produces). The content folders ship empty; `.gitignore` keeps whatever you add local.
 
 **→ [`REPO-STRUCTURE.md`](./REPO-STRUCTURE.md)** is the full annotated map of every file and folder, and how content flows through a cycle.
 

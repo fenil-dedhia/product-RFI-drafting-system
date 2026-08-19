@@ -12,7 +12,18 @@
 # NEVER tracked; seeded from the restricted team drive. The glob is name-agnostic,
 # so any variant (including a vendor-prefixed name) is ignored too, and no vendor
 # name ever needs to appear in this tracked file.
+#
+# The *.EXAMPLE.md templates alongside these paths ARE tracked and ship with the
+# repo — they carry structure only, never real names or arrangements. Copy an
+# example to the real filename to start; the copy lands on an ignored path.
 knowledge-base/*disclosure-notes.md
+!knowledge-base/*disclosure-notes.EXAMPLE.md
+
+# Team-confidential PM roster — who owns which product area, used to route open
+# questions in general Q&A (Mode B). Contains colleagues' names and contact details,
+# so it never belongs in a public repo. Seeded locally; see SETUP-INSTRUCTIONS.md.
+knowledge-base/pm-roster.md
+!knowledge-base/pm-roster.EXAMPLE.md
 
 # knowledge-base/references/ (and its roadmap/ subfolder)
 knowledge-base/references/*

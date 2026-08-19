@@ -9,12 +9,17 @@ One place to understand the whole layout — what every file and folder is, whet
   - `REPO-STRUCTURE.md` — This file — the map of every file and folder.
   - `SETUP-INSTRUCTIONS.md` — One-time setup + the per-cycle folder-hygiene checklist.
   - `CLAUDE.md` — The constitution: standing rules every session enforces (auto-loaded).
-  - `START-SESSION-PROMPT.md` — The per-run kickoff prompt (replace the `<<FILL:>>` markers, paste, go).
+  - `START-SESSION-PROMPT.md` — The per-run kickoff prompts — Mode A (RFI) and Mode B (general Q&A). Replace the `<<FILL:>>` markers, paste, go.
+  - `GENERAL-Q&A-PLAYBOOK.md` — Mode B: structure, voice and formatting for product questions that aren't an RFI.
   - `claude-code-tooling-requirements.txt` — Python libs for reading/writing xlsx, pptx, docx.
   - `.gitignore` — Keeps populated content OUT of the public repo.
   - **`knowledge-base/`** — Everything the agent reads FROM.
     - `README.md`
-    - `doc-sources.md` — Registry of authoritative product-doc sources (repos, docs sites).
+    - `doc-sources.md` — Registry of authoritative product-doc sources (repos, docs sites) — one per module.
+    - `OEM-disclosure-notes.EXAMPLE.md` — Tracked template. Copy to `OEM-disclosure-notes.md` and fill in.
+    - `OEM-disclosure-notes.md` — *(local only)* Third-party-delivered capabilities and approved disclosure wording.
+    - `pm-roster.EXAMPLE.md` — Tracked template. Copy to `pm-roster.md` and fill in.
+    - `pm-roster.md` — *(local only)* Who owns which product area, for routing open questions in Mode B.
     - **`references/`** — This cycle's source material (strategy deck, screenshots).
       - `README.md`
       - **`roadmap/`** — Roadmap material only — GA-vs-roadmap facts. Refreshed FIRST, every cycle.
@@ -32,9 +37,11 @@ One place to understand the whole layout — what every file and folder is, whet
 
 | Path | Role | In the repo? |
 | --- | --- | --- |
-| `README.md`, `REPO-STRUCTURE.md`, `SETUP-INSTRUCTIONS.md`, `CLAUDE.md`, `START-SESSION-PROMPT.md` | The framework — instructions and rules | **Tracked** (ships on fork) |
+| `README.md`, `REPO-STRUCTURE.md`, `SETUP-INSTRUCTIONS.md`, `CLAUDE.md`, `START-SESSION-PROMPT.md`, `GENERAL-Q&A-PLAYBOOK.md` | The framework — instructions and rules | **Tracked** (ships on fork) |
 | `claude-code-tooling-requirements.txt`, `.gitignore` | Tooling and the privacy guard | **Tracked** |
 | `knowledge-base/doc-sources.md` | Authoritative doc-source registry | **Tracked** |
+| `knowledge-base/*.EXAMPLE.md` | Templates for the two confidential files — structure only, no real content | **Tracked** (ships on fork) |
+| `knowledge-base/OEM-disclosure-notes.md`, `knowledge-base/pm-roster.md` | Team-confidential: disclosure wording, and PM ownership for routing | **Local only** — git-ignored, created from the templates |
 | Every folder's `README.md` | Per-folder guide (also what preserves the empty structure on fork) | **Tracked** |
 | Anything you drop into `knowledge-base/references/` (incl. `roadmap/`) | Decks, roadmap, screenshots | **Local only** — git-ignored |
 | Anything you drop into `knowledge-base/previous-RFIs/` (incl. `latest-RFI/`) | Prior completed RFIs | **Local only** — git-ignored |
