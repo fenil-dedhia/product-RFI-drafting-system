@@ -15,6 +15,12 @@
 > This notice is first on purpose. Truncation cuts from the end, so the instruction that fixes
 > truncation is the one thing guaranteed to survive it.
 
+<!-- PAIRED FILE. AGENTS.md ships beside this one, carrying the same constitution for
+     Codex and the other tools that read the AGENTS.md standard. CHANGE BOTH IN THE SAME
+     COMMIT. AGENTS.md is its own header followed by this file byte for byte, so rebuilding
+     it is: header + CLAUDE.md. ./tooling/check-agents-md.sh fails if they drift, and CI
+     runs it on every push. -->
+
 # RFI Drafting System — Constitution
 
 Standing rules for answering questions about our product from the knowledge base in this repo. The per-run kickoff is in `START-SESSION-PROMPT.md`; the manual pre-run checklist is in `SETUP-INSTRUCTIONS.md`.
