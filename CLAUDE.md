@@ -1,3 +1,12 @@
+<!-- PAIRED FILE, WHERE ONE SHIPS. If an AGENTS.md sits beside this file it carries this
+     same constitution for Codex and the other tools that read the AGENTS.md standard, and the
+     two must change in the SAME COMMIT. Rebuild it as: its own header, then this file.
+
+     NOT EVERY COPY OF THIS SYSTEM HAS ONE, and that is deliberate. A team working only in
+     Claude Code does not need it, so a deployment of this system may ship CLAUDE.md alone.
+     This file is shared between deployments; AGENTS.md is not. Where the pair does exist it
+     is guarded by tooling/check-agents-md.sh and by CI, so drift fails instead of rotting. -->
+
 # RFI Drafting System — Constitution
 
 Standing rules for answering questions about our product from the knowledge base in this repo. The per-run kickoff is in `START-SESSION-PROMPT.md`; the manual pre-run checklist is in `SETUP-INSTRUCTIONS.md`.

@@ -1,0 +1,13 @@
+# The constitution ships twice. This is the only thing that notices when one copy moves
+# and the other does not, because a rule in a file only works if somebody reads that file
+# at the moment they are editing the other one.
+name: AGENTS.md stays in step
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./tooling/check-agents-md.sh
